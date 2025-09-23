@@ -24,21 +24,24 @@ try {
 
 document.getElementById("startBtn").addEventListener("click", () => {
     const category = document.getElementById("category").value;
-    const diffcultiy = document.getElementById("difficulty").value;
+    const difficulty = document.getElementById("difficulty").value;
     const type = document.getElementById("type").value;
     const amount = document.getElementById("amount").value;
 
     const gameSettings = { 
         category,
-        diffcultiy,
+        difficulty,
         type,
         amount
     };
 
     console.log("Game Settings:", gameSettings);
 
+    localStorage.setItem("triviaSettings", JSON.stringify(gameSettings));
+
     alert(`Starting trivia with ${amount} questions in ${difficulty} mode!`);
- 
+      
+    window.location.href = "Trivia.html";
  });
 
 

@@ -10,12 +10,52 @@ function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
+
+function decodeHTML(str) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = str;
+    return txt.value;
+  }
+  
+
+const settings = JSON.parse(localStorage.getItem("triviaSettings")) || {
+  category: "",
+  difficulty: "easy",
+  type: "multiple",
+  amount: 10
+};
+
+
+const apiUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=${settings.type}`;
+
+// Fetch questions
+async function loadQuestions() {
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    questions = data.results;
+
+    if (questions.length === 0) {
+      alert("No questions found. Please try different settings.");
+      window.location.href = "index.html";
+    } else {
+      startGame();
+    }
+  } catch (error) {
+    console.error("Error loading questions:", error);
+    alert("Failed to load questions. Try again.");
+    window.location.href = "index.html";
+  }
+}
+
+
 function startGame() {
     currentQuestionIndex = 0;
     score = 0;
     totalTime = 0;
     showQuestion();
   }
+
 //   show question ui 
   function showQuestion() {
     clearInterval(timer);
@@ -25,7 +65,7 @@ function startGame() {
     const q = questions[currentQuestionIndex];
     document.getElementById("question-number").textContent =
       `Question ${currentQuestionIndex + 1} of ${questions.length}`;
-    document.getElementById("question-text").innerHTML = q.question;
+      document.getElementById("question-text").innerHTML = decodeHTML(q.question);
 
     const answerButtons = document.getElementById("answer-buttons");
     answerButtons.innerHTML = "";
@@ -69,7 +109,7 @@ function startTimer() {
     timer = setInterval(() => {
       timeLeft--;
       totalTime++;
-      document.getElementById("timer").textContent = `⏳ ${timeLeft}s`;
+      document.getElementById("timer").textContent = `Time: ${timeLeft}s`;
   
       if (timeLeft <= 0) {
         clearInterval(timer);
@@ -99,4 +139,4 @@ function startTimer() {
 }
 
 
-  window.onload = startGame;
+window.onload = loadQuestions;
