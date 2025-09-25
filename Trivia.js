@@ -26,7 +26,19 @@ const settings = JSON.parse(localStorage.getItem("triviaSettings")) || {
 };
 
 
-const apiUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=${settings.type}`;
+let apiUrl = `https://opentdb.com/api.php?amount=${settings.amount}`;
+
+if (settings.category && settings.category !== "any") {
+    apiUrl += `&category=${settings.category}`;
+}
+
+if (settings.difficulty && settings.difficulty !== "any") {
+    apiUrl += `&difficulty=${settings.difficulty}`;
+}
+
+if (settings.type && settings.type !== "any") {
+    apiUrl += `&type=${settings.type}`;
+}
 
 // Fetch questions
 async function loadQuestions() {
@@ -70,7 +82,7 @@ function startGame() {
     const answerButtons = document.getElementById("answer-buttons");
     answerButtons.innerHTML = "";
 
-    const answers = shuffleArray([q.correct_answer, ...q.incorrect_answers]);
+    const answers = shuffleArray([q.correct_answer, ...q.incorrect_answers.map(decodeHTML)]);
     answers.forEach(answer => {
       const button = document.createElement("button");
       button.classList.add("btn", "btn-outline-primary", "btn-lg", "w-100");
