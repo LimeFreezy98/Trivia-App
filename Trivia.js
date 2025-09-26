@@ -146,9 +146,27 @@ function startTimer() {
   document.getElementById("final-score").textContent = `Your Score: ${score} / ${questions.length}`;
   document.getElementById("time-taken").textContent = `Total Time: ${totalTime} seconds`;
 
+//   let allStats = JSON.parse(localStorage.getItem("triviaStats")) || [];
+//   allStats.push
+//     previous_game:
+//    date:
+//    score:
+//    time_takes:
+//    category:
+//    difficulty:
+   
+//  general Stats
+//    total games played:
+//    average score:
+//  fasted completion time:
+
   const modal = new bootstrap.Modal(document.getElementById("resultsModal"));
   modal.show();
-}
 
+
+document.getElementById("viewStatsBtn").onclick = () => {
+    window.location.href = "Stats.html";
+  };
+ }
 
 window.onload = loadQuestions;
