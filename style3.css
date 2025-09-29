@@ -1,0 +1,26 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ h1 {
+    font-weight: bold;
+    color: #2c3e50;
+ }
+
+
+  .card {
+    border-radius: 15px;
+    border: none;
+  }
+
+  .table th {
+    background-color: #f8f9fa;
+  }
+
+  #clearStats {
+    transition: transform 0.2s ease;
+  }
+  
+  #clearStats:hover {
+    transform: scale(1.05);
+  }
