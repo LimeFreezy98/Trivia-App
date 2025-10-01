@@ -146,19 +146,17 @@ function startTimer() {
   document.getElementById("final-score").textContent = `Your Score: ${score} / ${questions.length}`;
   document.getElementById("time-taken").textContent = `Total Time: ${totalTime} seconds`;
 
-//   let allStats = JSON.parse(localStorage.getItem("triviaStats")) || [];
-//   allStats.push
-//     previous_game:
-//    date:
-//    score:
-//    time_takes:
-//    category:
-//    difficulty:
-   
-//  general Stats
-//    total games played:
-//    average score:
-//  fasted completion time:
+  let allStats = JSON.parse(localStorage.getItem("triviaStats")) || [];
+  allStats.push({
+    date: new Date().toLocaleString(),
+    score: score,
+    total: questions.length,
+    time: totalTime,
+    category: settings.category || "Any",
+    difficulty: settings.difficulty || "Any",
+    questionType: settings.type || "Any"
+  });
+  localStorage.setItem("triviaStats", JSON.stringify(allStats));
 
   const modal = new bootstrap.Modal(document.getElementById("resultsModal"));
   modal.show();
