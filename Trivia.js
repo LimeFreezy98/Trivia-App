@@ -82,12 +82,16 @@ function startGame() {
     const answerButtons = document.getElementById("answer-buttons");
     answerButtons.innerHTML = "";
 
-    const answers = shuffleArray([q.correct_answer, ...q.incorrect_answers.map(decodeHTML)]);
+    const decodedCorrect = decodeHTML(q.correct_answer);
+    const decodedIncorrect = q.incorrect_answers.map(decodeHTML);
+
+    const answers = shuffleArray([decodedCorrect, ...decodedIncorrect]);
+
     answers.forEach(answer => {
       const button = document.createElement("button");
       button.classList.add("btn", "btn-outline-primary", "btn-lg", "w-100");
       button.textContent = answer;
-      button.onclick = () => selectAnswer(answer, q.correct_answer);
+      button.onclick = () => selectAnswer(answer, decodedCorrect);
       answerButtons.appendChild(button);
     });
     document.getElementById("feedback").textContent = "";
