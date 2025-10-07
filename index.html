@@ -58,8 +58,12 @@
      <div class="mb-3">
      <label for="amount" class="form-label"><strong>Number of Questions:</strong></label>
    
-     <input id="amount" type="number" class="form-control" min="1" max="50" value="10">
+     <input id="amount" type="number" class="form-control" min="1" max="50" value="10" placeholder="Maximun Questions allowed 1 through 50">
+     <div id="amountError" class="text-danger mt-1" style="display: none;">
+        Please enter a valid number between 1 and 50.
       </div>
+
+    </div>
 
       <div class="text-center">
      <button id="startBtn" class="btn btn-success btn-lg w-100"> Start Trivia</button>

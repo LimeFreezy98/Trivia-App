@@ -26,7 +26,18 @@ document.getElementById("startBtn").addEventListener("click", () => {
     const category = document.getElementById("category").value;
     const difficulty = document.getElementById("difficulty").value;
     const type = document.getElementById("type").value;
-    const amount = document.getElementById("amount").value;
+    const amountInput = document.getElementById("amount");
+    const amountError = document.getElementById("amountError");
+    const amount = parseInt(amountInput.value, 10)
+
+    amountError.style.display = "none";
+     
+    if (isNaN(amount) || amount < 1 || amount > 50) {
+        amountError.style.display = "block";
+        amountInput.focus();
+        return;
+    }
+
 
     const gameSettings = { 
         category,
