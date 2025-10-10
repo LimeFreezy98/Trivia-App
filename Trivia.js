@@ -1,3 +1,6 @@
+import { shuffleArray } from "./helper.js";
+import { loadQuestions} from "./question.js";
+
 let questions = []; 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -6,9 +9,6 @@ let timeLeft = 15;
 let totalTime = 0;
 
 
-function shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
-}
 
 
 function decodeHTML(str) {
@@ -41,30 +41,43 @@ if (settings.type && settings.type !== "any") {
 }
 
 // Fetch questions
-async function loadQuestions() {
-  try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-    questions = data.results;
-
-    if (questions.length === 0) {
-      alert("No questions found. Please try different settings.");
-      window.location.href = "index.html";
-    } else {
-      startGame();
+async function loadQuestionsUI() {
+    try {
+        const settings = JSON.parse(localStorage.getItem("triviaSettings")) || {
+          category: "",
+          difficulty: "easy",
+          type: "multiple",
+          amount: 10
+        };
+    
+        let apiUrl = `https://opentdb.com/api.php?amount=${settings.amount}`;
+    
+        if (settings.category && settings.category !== "any") apiUrl += `&category=${settings.category}`;
+        if (settings.difficulty && settings.difficulty !== "any") apiUrl += `&difficulty=${settings.difficulty}`;
+        if (settings.type && settings.type !== "any") apiUrl += `&type=${settings.type}`;
+    
+        questions = await loadQuestions(apiUrl);
+    
+        if (!questions || questions.length === 0) {
+          alert("No questions found. Please try different settings.");
+          window.location.href = "index.html";
+        } else {
+            sessionStorage.setItem("triviaQuestions", JSON.stringify(questions));
+          startGame();
+        }
+      } catch (error) {
+        console.error("Error loading questions:", error);
+        alert("Failed to load questions. Try again.");
+        window.location.href = "index.html";
+      }
     }
-  } catch (error) {
-    console.error("Error loading questions:", error);
-    alert("Failed to load questions. Try again.");
-    window.location.href = "index.html";
-  }
-}
 
 
 function startGame() {
     currentQuestionIndex = 0;
     score = 0;
     totalTime = 0;
+    clearInterval(timer);
     showQuestion();
   }
 
@@ -171,4 +184,4 @@ document.getElementById("viewStatsBtn").onclick = () => {
   };
  }
 
-window.onload = loadQuestions;
+window.onload = loadQuestionsUI;
