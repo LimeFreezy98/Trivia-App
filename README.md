@@ -43,8 +43,7 @@ Fastest Completion Time: how fast can complete Trivia
 Total Time played: will give amount time played.
 
 
-Previous Games: will show yout Date time played, score, time takes, category, Difficulty and question type: 
-////////
+Previous Games: will show yout Date time played, score, time takes, category, Difficulty and question type.
 
 
 
